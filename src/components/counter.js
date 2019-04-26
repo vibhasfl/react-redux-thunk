@@ -20,14 +20,39 @@ const mapStateToProps = (state) => ({
   count: state.count
 })
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    increment: () => dispatch(increment()),
-    decrement: () => dispatch(decrement()),
-    incrementAsync: () => dispatch(incrementAsync()),
-    decrementAsync: () => dispatch(decrementAsync())
-  }
+// Way 1
+// mapDispatchToProps as function
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     increment: () => dispatch(increment()),
+//     decrement: () => dispatch(decrement()),
+//     incrementAsync: () => dispatch(incrementAsync()),
+//     decrementAsync: () => dispatch(decrementAsync())
+//   }
+// }
+
+// Way 2
+// Using bind action creators
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators(
+    {
+      increment,
+      decrement,
+      incrementAsync,
+      decrementAsync
+    },
+    dispatch
+  )
 }
+
+// Way 3
+// connect will automatically call bindActionCreators for you internally
+// const mapDispatchToProps = {
+//   increment,
+//   decrement,
+//   incrementAsync,
+//   decrementAsync
+// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter)
 
